@@ -1,0 +1,1 @@
+export const SET_CUREENT_USER = "SET_CUREENT_USER";
