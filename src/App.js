@@ -19,7 +19,7 @@ export class App extends Component {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
-        this.unsubscribeFromOnSnapshot = userRef.onSnapshot(snapShot => {
+        userRef.onSnapshot(snapShot => {
           setUserAction({
             id: snapShot.id,
             ...snapShot.data()
@@ -33,7 +33,6 @@ export class App extends Component {
 
   componentWillUnmount() {
     this.unsubscribeFromAuth();
-    this.unsubscribeFromOnSnapshot();
   }
 
   render() {
