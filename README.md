@@ -1,5 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Open [crwn-zn-clothing.herokuapp.com](https://crwn-zn-clothing.herokuapp.com/) to view it in the browser.
 ## Available Scripts
 
 In the project directory, you can run:
