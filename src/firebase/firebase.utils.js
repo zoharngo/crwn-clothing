@@ -32,7 +32,6 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   // Get user snapshot
   const userSnapShotData = await userRef.get();
 
-  console.log("onAuthStateChanged", userSnapShotData.exists);
   // Check if user exists already in fireStore
   if (!userSnapShotData.exists) {
     const { email, displayName } = userAuth;
