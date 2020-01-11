@@ -5,17 +5,21 @@ import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import {
+  auth,
+  createUserProfileDocument,
+} from "./firebase/firebase.utils";
+
 import { setUserAction } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selector";
 import { createStructuredSelector } from "reselect";
 import "./App.css";
 import CheckoutPage from "./pages/checkout/checkout.component";
 
+
 export class App extends Component {
   unsubscribeFromAuth = null;
-  unsubscribeFromOnSnapshot = null;
-
+  
   componentDidMount() {
     const { setUserAction } = this.props.actions;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -64,7 +68,7 @@ export class App extends Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
 });
 
 function mapDispatchToProps(dispatch) {
