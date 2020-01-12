@@ -7,29 +7,45 @@ import {
   firestore,
   convertCollectionsSnapshotToMap
 } from "../../firebase/firebase.utils";
-import { updateCollections } from "../../redux/shop/shop.actions";
+import {
+  updateCollections,
+  updateLoadingStatus
+} from "../../redux/shop/shop.actions";
+import { createStructuredSelector } from "reselect";
+import { selectLoadingStatus } from "../../redux/shop/shop.selector";
 
 class ShopPage extends Component {
   unsubscribeFromSnapshot = null;
-
   componentDidMount() {
     const collectionRef = firestore.collection("collections");
 
     collectionRef.onSnapshot(async snapshot => {
       const collectionMap = convertCollectionsSnapshotToMap(snapshot);
-      const { updateCollections } = this.props.actions;
+      const { updateCollections, updateLoadingStatus } = this.props.actions;
       updateCollections(collectionMap);
+      updateLoadingStatus();
     });
   }
 
+  componentWillUnmount() {
+    const { updateLoadingStatus } = this.props.actions;
+    updateLoadingStatus();
+  }
+
   render() {
-    const { match } = this.props;
+    const { match, isLoading } = this.props;
     return (
       <div className="shop-page">
-        <Route exact path={`${match.path}`} component={CollectionOverview} />
+        <Route
+          exact
+          path={`${match.path}`}
+          render={props => (
+            <CollectionOverview isLoading={isLoading} {...props} />
+          )}
+        />
         <Route
           path={`${match.path}/:collectionID`}
-          component={CollectionPage}
+          render={props => <CollectionPage isLoading={isLoading} {...props} />}
         />
       </div>
     );
@@ -39,8 +55,13 @@ class ShopPage extends Component {
 const mapDispatchToProps = dispatch => ({
   actions: {
     updateCollections: collectionMap =>
-      dispatch(updateCollections(collectionMap))
+      dispatch(updateCollections(collectionMap)),
+    updateLoadingStatus: () => dispatch(updateLoadingStatus())
   }
 });
 
-export default connect(null, mapDispatchToProps)(ShopPage);
+const mapStateToProps = createStructuredSelector({
+  isLoading: selectLoadingStatus
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShopPage);

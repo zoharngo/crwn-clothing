@@ -1,7 +1,11 @@
-import { UPDATE_COLLECTIONS } from "./shop.actions.types";
+import {
+  UPDATE_COLLECTIONS,
+  UPDATE_LOADING_STATUS
+} from "./shop.actions.types";
 
 const INITIAL_STATE = {
-  collections: null
+  collections: null,
+  loading: true
 };
 
 const shopReducer = (state = INITIAL_STATE, action) => {
@@ -11,6 +15,11 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         collections
+      };
+    case UPDATE_LOADING_STATUS:
+      return {
+        ...state,
+        loading: !state.loading
       };
     default:
       return state;
