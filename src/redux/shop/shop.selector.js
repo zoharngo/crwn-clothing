@@ -1,9 +1,9 @@
 import { createSelector } from "reselect";
 
-const selectDircetory = state => state.shop;
+const selectShop = state => state.shop;
 
 export const selectShopCollections = createSelector(
-  [selectDircetory],
+  [selectShop],
   shop => shop.collections
 );
 
@@ -18,7 +18,12 @@ export const selectCollectionForPreview = createSelector(
     collections ? Object.keys(collections).map(key => collections[key]) : []
 );
 
-export const selectLoadingStatus = createSelector(
-  [selectDircetory],
-  shop => shop.loading
+export const selectFetchingStatus = createSelector(
+  [selectShop],
+  shop => shop.isFetching
+);
+
+export const selectCollectionLoaded = createSelector(
+  [selectShop],
+  shop => !!shop.collections
 );
