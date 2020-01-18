@@ -41,12 +41,6 @@ export class SignUp extends Component {
       password
     });
 
-    this.setState({
-      displayName: "",
-      email: "",
-      password: "",
-      confirmPassword: ""
-    });
   };
 
   render() {

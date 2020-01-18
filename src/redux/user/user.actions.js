@@ -46,7 +46,7 @@ export const signUpStart = userCredentials => ({
   payload: userCredentials
 });
 
-export const signUpSuccses = currentUser => ({
+export const signUpSuccses = ({ user, additionalData }) => ({
   type: SIGN_UP_SUCCESS,
-  payload: currentUser
+  payload: { user, additionalData }
 });

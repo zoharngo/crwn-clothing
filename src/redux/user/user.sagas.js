@@ -58,26 +58,22 @@ function* onSignOutStart() {
   }
 }
 
-function* onSignUpStart(action) {
-  const {
-    payload: { email, password, displayName }
-  } = action;
+function* onSignUpStart({ payload: { email, password, displayName } }) {
   try {
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-
-    yield call(createUserProfileDocument, user, {
-      displayName
-    });
-
     yield put(
       signUpSuccses({
-        email,
-        password
+        user,
+        additionalData: { displayName }
       })
     );
   } catch (error) {
     yield put(authFailure(error.message));
   }
+}
+
+function* onSignInAfterSignUp({ payload: { user, additionalData } }) {
+  yield call(signIn, user, additionalData);
 }
 
 function* googleSignInStart() {
@@ -101,12 +97,12 @@ function* signUpStart() {
 }
 
 function* signUpSuccsesStart() {
-  yield takeLatest(SIGN_UP_SUCCESS, onEmailSignInStart);
+  yield takeLatest(SIGN_UP_SUCCESS, onSignInAfterSignUp);
 }
 
-function* signIn(user) {
+function* signIn(user, additionalData) {
   try {
-    const userRef = yield call(createUserProfileDocument, user);
+    const userRef = yield call(createUserProfileDocument, user, additionalData);
     const userSnapshot = yield userRef.get();
     yield put(
       signInSuccess({
