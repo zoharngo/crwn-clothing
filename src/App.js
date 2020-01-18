@@ -10,11 +10,14 @@ import { selectCurrentUser } from "./redux/user/user.selector";
 import { createStructuredSelector } from "reselect";
 import "./App.css";
 import CheckoutPage from "./pages/checkout/checkout.component";
-
+import { checkUserSession } from "./redux/user/user.actions";
 
 export class App extends Component {
- 
   
+  componentDidMount() {
+    const { checkUserSession } = this.props.actions;
+    checkUserSession();
+  }
 
   render() {
     return (
@@ -42,8 +45,13 @@ export class App extends Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
+  currentUser: selectCurrentUser
 });
 
+const mapDispatchToProps = dispatch => ({
+  actions: {
+    checkUserSession: () => dispatch(checkUserSession())
+  }
+});
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -34,7 +34,6 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userSnapShotData.exists) {
     const { email, displayName } = userAuth;
     const createdAt = new Date();
-    console.log(additionalData);
     try {
       await userRef.set({
         displayName,
@@ -79,6 +78,15 @@ export const addCollectionsAndDocuments = async (
   });
 
   return await batch.commit();
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubsribe = auth.onAuthStateChanged(userAuth => {
+      unsubsribe();
+      resolve(userAuth);
+    }, reject);
+  });
 };
 
 export default firebase;
