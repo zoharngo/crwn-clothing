@@ -6,6 +6,8 @@ import {
   CHECK_USER_SESSION,
   SIGN_OUT_START,
   SIGN_OUT_SUCCESS,
+  SIGN_UP_START,
+  SIGN_UP_SUCCESS
 } from "./user.actions.types";
 
 export const googleSignInStart = () => ({
@@ -37,4 +39,14 @@ export const signOutStart = () => ({
 
 export const signOutSuccess = () => ({
   type: SIGN_OUT_SUCCESS
+});
+
+export const signUpStart = userCredentials => ({
+  type: SIGN_UP_START,
+  payload: userCredentials
+});
+
+export const signUpSuccses = currentUser => ({
+  type: SIGN_UP_SUCCESS,
+  payload: currentUser
 });
