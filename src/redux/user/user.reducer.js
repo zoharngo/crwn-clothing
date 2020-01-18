@@ -1,17 +1,25 @@
-import { SET_CUREENT_USER } from "./user.actions.types";
+import { SIGN_IN_SUCCESS, SIGN_IN_FAILURE } from "./user.actions.types";
 
 const INITIAL_STATE = {
-  currentUser: null
+  currentUser: null,
+  error: ""
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SET_CUREENT_USER:
+    case SIGN_IN_SUCCESS:
       return {
         ...state,
-        currentUser: action.payload
+        currentUser: action.payload,
+        errorMessage: ""
       };
 
+    case SIGN_IN_FAILURE:
+      const { errorMessage } = action;
+      return {
+        ...state,
+        payload: errorMessage
+      };
     default:
       return state;
   }
