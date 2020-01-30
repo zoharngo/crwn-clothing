@@ -9,8 +9,7 @@ import { selectCurrentUser } from "./redux/user/user.selector";
 import { createStructuredSelector } from "reselect";
 import CheckoutPage from "./pages/checkout/checkout.component";
 import { checkUserSession } from "./redux/user/user.actions";
-
-import "./App.css";
+import { GlobalStyle } from "./global.styles";
 
 const App = ({ currentUser, actions: { checkUserSession } }) => {
   useEffect(() => {
@@ -19,6 +18,7 @@ const App = ({ currentUser, actions: { checkUserSession } }) => {
 
   return (
     <div>
+      <GlobalStyle />
       <Header />
       <Switch>
         <Route exact path={"/"} component={HomePage} />
